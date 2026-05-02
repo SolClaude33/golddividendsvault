@@ -97,13 +97,13 @@ export function Tokenomics() {
                 <Coins className="w-10 h-10 text-amber-400" />
               </div>
               <h3 className="text-2xl font-black text-black mb-1 uppercase">{t.goldDividends}</h3>
-              <div className="text-5xl font-black text-white mb-3 drop-shadow-[4px_4px_0px_rgba(0,0,0,0.3)]">75%</div>
+              <div className="text-5xl font-black text-white mb-3 drop-shadow-[4px_4px_0px_rgba(0,0,0,0.3)]">85%</div>
               <p className="text-black font-bold text-base leading-relaxed border-y-2 border-black/30 py-3 mb-3">
                 {t.goldDividendsDesc}
               </p>
               <div className="mt-auto pt-3 w-full">
                  <div className="w-full bg-amber-900 h-3 mt-2 border-2 border-black/20 overflow-hidden relative">
-                   <div className="h-full bg-amber-200 w-[75%]" />
+                   <div className="h-full bg-amber-200 w-[85%]" />
                  </div>
                  <p className="text-[10px] text-right mt-2 text-black font-mono font-bold uppercase">{t.holders}</p>
               </div>
@@ -120,13 +120,13 @@ export function Tokenomics() {
                 <TrendingUp className="w-10 h-10 text-blue-600" />
               </div>
               <h3 className="text-2xl font-black text-white mb-1 uppercase">{t.liquidity}</h3>
-              <div className="text-5xl font-black text-white mb-3 drop-shadow-[4px_4px_0px_rgba(0,0,0,0.3)]">15%</div>
+              <div className="text-5xl font-black text-white mb-3 drop-shadow-[4px_4px_0px_rgba(0,0,0,0.3)]">5%</div>
               <p className="text-blue-100 font-bold text-base leading-relaxed border-y-2 border-white/30 py-3 mb-3">
                 {t.liquidityDesc}
               </p>
               <div className="mt-auto pt-3 w-full">
                  <div className="w-full bg-blue-900 h-3 mt-2 border-2 border-white/20 overflow-hidden relative">
-                   <div className="h-full bg-blue-300 w-[15%]" />
+                   <div className="h-full bg-blue-300 w-[5%]" />
                  </div>
                  <p className="text-[10px] text-right mt-2 text-blue-200 font-mono font-bold uppercase">{t.liquidityMech}</p>
               </div>
@@ -166,9 +166,9 @@ export function Tokenomics() {
                   ? t.distributionNote
                   : t.distributionNoteAlt}
             </p>
-            <a 
-              href="https://x.com/4Vaultbnb" 
-              target="_blank" 
+            <a
+              href={import.meta.env.VITE_TWITTER_URL || "#"}
+              target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-amber-600 to-amber-500 text-black font-bold uppercase tracking-wider hover:from-amber-500 hover:to-amber-600 transition-all border-4 border-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.3)]"
               data-testid="link-twitter"

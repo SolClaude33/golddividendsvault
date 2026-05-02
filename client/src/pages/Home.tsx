@@ -20,14 +20,14 @@ export default function Home() {
 
   const content = {
     en: {
-      subtitle: "4Vault · 金仓",
+      subtitle: "Gold Dividend Vault · 黄金分红金库",
       disclaimer: "DISCLAIMER: This is a digital asset. The \"Gold\" mentioned are tokenized assets. We are not financial advisors. Don't risk money you can't afford to lose.",
-      copyright: "© 2026 4Vault. ALL RIGHTS RESERVED."
+      copyright: "© 2026 Gold Dividend Vault. ALL RIGHTS RESERVED."
     },
     zh: {
-      subtitle: "4Vault · 金仓",
+      subtitle: "黄金分红金库 · Gold Dividend Vault",
       disclaimer: '免责声明：本项目为数字资产。"黄金"指代币化资产。我们不是财务顾问。不要投入你无法承受损失的资金。',
-      copyright: "© 2026 4Vault. 保留所有权利。"
+      copyright: "© 2026 黄金分红金库. 保留所有权利。"
     }
   };
 
@@ -57,14 +57,14 @@ export default function Home() {
         <div className="container mx-auto px-4 text-center">
             <h2 className="text-4xl font-bold mb-2">
               <span className="bg-gradient-to-r from-amber-300 via-amber-500 to-amber-600 bg-clip-text text-transparent">
-                4Vault
+                {language === "en" ? "Gold Dividend Vault" : "黄金分红金库"}
               </span>
             </h2>
             <p className="text-amber-400/80 font-medium mb-8 text-lg">{t.subtitle}</p>
             <div className="flex justify-center gap-8 mb-8">
-                <a href="https://x.com/4Vaultbnb" target="_blank" rel="noopener noreferrer" className="text-amber-400 hover:text-amber-300 transition-colors font-medium">Twitter</a>
+                <a href={import.meta.env.VITE_TWITTER_URL || "#"} target="_blank" rel="noopener noreferrer" className="text-amber-400 hover:text-amber-300 transition-colors font-medium">Twitter</a>
                 <a href="https://t.me/4Vault" target="_blank" rel="noopener noreferrer" className="text-amber-400 hover:text-amber-300 transition-colors font-medium">Telegram</a>
-                <a href="https://four.meme" target="_blank" rel="noopener noreferrer" className="text-amber-400 hover:text-amber-300 transition-colors font-medium">four.meme</a>
+                <a href="https://flap.sh/" target="_blank" rel="noopener noreferrer" className="text-amber-400 hover:text-amber-300 transition-colors font-medium">flap.sh</a>
             </div>
             <p className="text-amber-100/60 text-sm max-w-2xl mx-auto leading-relaxed">
                 {t.disclaimer}

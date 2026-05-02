@@ -23,7 +23,7 @@ export function Hero() {
 
   const content = {
     en: {
-      title: "4Vault",
+      title: "Gold Dividend Vault",
       subtitle: "GOLD VAULT",
       tagline: "THE ULTIMATE DIGITAL GOLD RESERVE",
       description: "Secure your wealth in the digital age. Gold-backed, vault-secured, blockchain-verified.",
@@ -32,7 +32,7 @@ export function Hero() {
       ca: "CA: SOON"
     },
     zh: {
-      title: "4Vault",
+      title: "黄金分红金库",
       subtitle: "GOLD VAULT",
       tagline: "终极数字黄金储备",
       description: "在数字时代守护你的财富：黄金背书、金库级安全、链上可验证。",
@@ -102,7 +102,7 @@ export function Hero() {
         <div className="relative z-50 transform -rotate-1 border-2 border-amber-500 bg-black/90 backdrop-blur-sm px-6 py-2 shadow-[0_0_30px_rgba(251,191,36,0.3)]">
            <h2 className="text-xl md:text-2xl font-black uppercase tracking-wider">
               <span className="bg-gradient-to-r from-amber-300 via-amber-500 to-amber-600 bg-clip-text text-transparent">
-                {language === "en" ? "4Vault" : "4Vault"}
+                {language === "en" ? "Gold Dividend Vault" : "黄金分红金库"}
               </span>
            </h2>
         </div>
@@ -117,9 +117,9 @@ export function Hero() {
               <span className="text-xs font-bold">{language === "en" ? "中文" : "EN"}</span>
             </div>
           </button>
-          <a 
-            href="https://x.com/4Vaultbnb" 
-            target="_blank" 
+          <a
+            href={import.meta.env.VITE_TWITTER_URL || "#"}
+            target="_blank"
             rel="noopener noreferrer"
             className="p-2 border-2 border-amber-500 bg-black/90 backdrop-blur-sm hover:bg-amber-500/20 transition-colors rounded-full cursor-pointer"
             data-testid="link-twitter-hero"
@@ -138,20 +138,6 @@ export function Hero() {
         </div>
       </div>
 
-      {/* CA Badge */}
-      <motion.div 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-        className="absolute top-24 md:top-28 left-1/2 transform -translate-x-1/2 z-20"
-      >
-        <div className="bg-black/90 backdrop-blur-sm border-2 border-amber-500 px-6 py-3 font-mono text-sm md:text-base shadow-[0_0_30px_rgba(251,191,36,0.4)]">
-          <span className="text-amber-400 font-bold">{language === "en" ? "CA:" : "CA："}</span>
-          <span className="text-amber-100 ml-2 tracking-wider" data-testid="ca-address">
-            {stats?.tokenMint ? stats.tokenMint : (language === "en" ? "SOON" : "即将公布")}
-          </span>
-        </div>
-      </motion.div>
 
       {/* Content */}
       <div className="relative z-30 container mx-auto px-4 text-center">
@@ -224,6 +210,22 @@ export function Hero() {
               </motion.button>
             </a>
           </div>
+
+          {/* CA Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="flex justify-center mt-4"
+          >
+            <div className="bg-black/80 backdrop-blur-sm border border-amber-500/60 px-6 py-2 font-mono text-sm shadow-[0_0_20px_rgba(251,191,36,0.2)]">
+              <span className="text-amber-500 font-bold">{language === "en" ? "CA:" : "CA："}</span>
+              <span className="text-amber-200 ml-2 tracking-wider" data-testid="ca-address">
+                {import.meta.env.VITE_TOKEN_CA || (language === "en" ? "SOON" : "即将公布")}
+              </span>
+            </div>
+          </motion.div>
+
         </motion.div>
       </div>
 

@@ -242,97 +242,66 @@ export async function registerRoutes(
   });
 
   app.get("/api/public/stats", async (req, res) => {
-    // Always return 200 OK, even if contract call fails
     try {
-      // Safely import and call contract data
-      let contractData: any = {
-        fundsBalance: "0",
-        feesConvertedToGold: "0",
-        liquidityBalance: "0",
-        tokenAddress: "0xdCCf9Ac19362C6d60e69A196fC6351C4A0887777",
-        taxProcessorAddress: "0xF7e36953aEDF448cbB9cE5fA123742e3543A82D8",
-      };
+      const contractModule = await import("./contract");
 
-      try {
-        const contractModule = await import("./contract");
-        if (contractModule && contractModule.getContractData) {
-          console.log("[Stats] Calling getContractData...");
-          contractData = await contractModule.getContractData();
-          console.log("[Stats] Contract data received:", contractData);
-        } else {
-          console.log("[Stats] getContractData function not found in module");
-        }
-      } catch (contractError: any) {
-        console.log("[Stats] Contract data not available, using defaults:", contractError?.message || String(contractError));
-        console.log("[Stats] Contract error stack:", contractError?.stack);
-      }
-      
-      // Convert wei to BNB (18 decimals) - safely parse
-      let liquidityBNB = 0;
-      let fundsBNB = 0;
-      let feesConvertedBNB = 0;
-      
-      try {
-        liquidityBNB = contractData?.liquidityBalance ? parseFloat(String(contractData.liquidityBalance)) || 0 : 0;
-        fundsBNB = contractData?.fundsBalance ? parseFloat(String(contractData.fundsBalance)) || 0 : 0;
-        feesConvertedBNB = contractData?.feesConvertedToGold ? parseFloat(String(contractData.feesConvertedToGold)) || 0 : 0;
-      } catch (parseError) {
-        console.log("[Stats] Error parsing contract values:", parseError);
-      }
-      
+      const vaultStats = await contractModule.getVaultStats().catch(() => ({
+        totalBNBReceived:        "0",
+        totalBNBConvertedToGold: "0",
+        goldFundBalance:         "0",
+        treasuryBNBBalance:      "0",
+        currentGoldBalance:      "0",
+        totalGoldDistributed:    "0",
+        distributionActive:      false,
+        distributionsPaused:     false,
+      }));
+
       const response = {
-        totalDistributions: 0,
-        totalGoldDistributed: 0,
-        totalGoldMajorHolders: 0,
-        totalGoldMediumHolders: 0,
-        totalTokenBuyback: liquidityBNB.toString(),
-        totalTreasury: fundsBNB.toString(),
-        totalFeesClaimed: 0,
-        totalBurned: 0,
-        goldMint: "GoLDppdjB1vDTPSGxyMJFqdnj134yH6Prg9eqsGDiw6A",
-        tokenMint: contractData?.tokenAddress || "0xdCCf9Ac19362C6d60e69A196fC6351C4A0887777",
-        lastDistribution: null,
-        minimumHolderPercentage: "0.5",
-        mediumHolderMinPercentage: "0.1",
-        majorHoldersPercentage: "75",
-        mediumHoldersPercentage: "0",
-        buybackPercentage: "15",
-        treasuryPercentage: "10",
-        goldDistributionPercentage: "75",
-        burnPercentage: "0",
-        fundsBalance: fundsBNB.toString(),
-        feesConvertedToGold: feesConvertedBNB.toString(),
-        liquidityBalance: liquidityBNB.toString(),
+        // Vault stats (from GoldDividendVault contract)
+        totalBNBReceived:        vaultStats.totalBNBReceived,
+        totalBNBConvertedToGold: vaultStats.totalBNBConvertedToGold,
+        goldFundBalance:         vaultStats.goldFundBalance,
+        treasuryBNBBalance:      vaultStats.treasuryBNBBalance,
+        currentGoldBalance:      vaultStats.currentGoldBalance,
+        totalGoldDistributed:    vaultStats.totalGoldDistributed,
+        distributionActive:      vaultStats.distributionActive,
+        distributionsPaused:     vaultStats.distributionsPaused,
+        // Legacy fields kept for compatibility
+        totalDistributions:          0,
+        totalFeesClaimed:            0,
+        tokenMint:                   null,
+        lastDistribution:            null,
+        goldDistributionPercentage:  "85",
+        burnPercentage:              "5",
+        treasuryPercentage:          "10",
+        // Map vault fields to legacy names used elsewhere in the UI
+        feesConvertedToGold:  vaultStats.totalBNBConvertedToGold,
+        fundsBalance:         vaultStats.treasuryBNBBalance,
+        liquidityBalance:     vaultStats.goldFundBalance,
       };
 
-      console.log("[Stats] Sending response:", JSON.stringify(response, null, 2));
       res.status(200).json(response);
     } catch (error: any) {
       console.error("[Stats] Unexpected error:", error?.message || String(error));
-      // Always return 200 OK with default values
       res.status(200).json({
-        totalDistributions: 0,
-        totalGoldDistributed: 0,
-        totalGoldMajorHolders: 0,
-        totalGoldMediumHolders: 0,
-        totalTokenBuyback: "0",
-        totalTreasury: "0",
-        totalFeesClaimed: 0,
-        totalBurned: 0,
-        goldMint: "GoLDppdjB1vDTPSGxyMJFqdnj134yH6Prg9eqsGDiw6A",
-        tokenMint: "0xdCCf9Ac19362C6d60e69A196fC6351C4A0887777",
-        lastDistribution: null,
-        minimumHolderPercentage: "0.5",
-        mediumHolderMinPercentage: "0.1",
-        majorHoldersPercentage: "75",
-        mediumHoldersPercentage: "0",
-        buybackPercentage: "15",
-        treasuryPercentage: "10",
-        goldDistributionPercentage: "75",
-        burnPercentage: "0",
-        fundsBalance: "0",
-        feesConvertedToGold: "0",
-        liquidityBalance: "0",
+        totalBNBReceived:        "0",
+        totalBNBConvertedToGold: "0",
+        goldFundBalance:         "0",
+        treasuryBNBBalance:      "0",
+        currentGoldBalance:      "0",
+        totalGoldDistributed:    "0",
+        distributionActive:      false,
+        distributionsPaused:     false,
+        totalDistributions:      0,
+        totalFeesClaimed:        0,
+        tokenMint:               null,
+        lastDistribution:        null,
+        goldDistributionPercentage: "85",
+        burnPercentage:          "5",
+        treasuryPercentage:      "10",
+        feesConvertedToGold:     "0",
+        fundsBalance:            "0",
+        liquidityBalance:        "0",
       });
     }
   });

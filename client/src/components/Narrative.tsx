@@ -10,9 +10,9 @@ export function Narrative() {
       title: "Why We Are Here",
       chartLabel: "Gold vs Dollar Chart",
       fiatCollapse: "FIAT COLLAPSE IMMINENT",
-      paragraph1: "Gold just hit a new ATH: $5,586. This isn't just a number. It's a signal. The signal that the 50-year experiment of fiat currency is coming to an end.",
+      paragraph1: "Gold just hit a new ATH: $5,620. This isn't just a number. It's a signal. The signal that the 50-year experiment of fiat currency is coming to an end.",
       paragraph2: "Governments are printing trillions. Your purchasing power is being stolen every second you hold cash. They call it \"Quantitative Easing\". We call it theft.",
-      paragraph3: "4Vault is the answer. We don't just meme about wealth. We capture it. By automatically converting fees into REAL tokenized Gold, we build a floor that cannot be rugged.",
+      paragraph3: "Gold Dividend Vault is the answer. We don't just meme about wealth. We capture it. By automatically converting fees into REAL tokenized Gold, we build a floor that cannot be rugged.",
       safeHaven: "SAFE HAVEN",
       safeHavenDesc: "Historically proven for 5,000 years.",
       antiInflation: "ANTI-INFLATION",
@@ -22,9 +22,9 @@ export function Narrative() {
       title: "我们为何在此",
       chartLabel: "黄金 vs 美元 图表",
       fiatCollapse: "法币崩塌迫在眉睫",
-      paragraph1: "黄金创下新高（ATH）：$5,586。这不只是一个数字，而是一个信号——那个延续了 50 年的法币实验，正在走向终局。",
+      paragraph1: "黄金创下新高（ATH）：$5,620。这不只是一个数字，而是一个信号——那个延续了 50 年的法币实验，正在走向终局。",
       paragraph2: '各国政府疯狂增发，万亿级印钞。你只要把钱放在现金里，每一秒购买力都在被偷走。他们称之为"量化宽松"。我们称之为：盗窃。',
-      paragraph3: '4Vault 就是答案。我们不只是拿"财富"当梗，我们把它变成现实。通过将手续费自动兑换为 REAL（真实）代币化黄金，我们建立一个无法被 rug 的底盘。',
+      paragraph3: '黄金分红金库 就是答案。我们不只是拿"财富"当梗，我们把它变成现实。通过将手续费自动兑换为 REAL（真实）代币化黄金，我们建立一个无法被 rug 的底盘。',
       safeHaven: "避险资产",
       safeHavenDesc: "5000 年历史验证。",
       antiInflation: "抗通胀",
@@ -98,11 +98,11 @@ export function Narrative() {
               <p>
                 {language === "en" ? (
                   <>
-                    <strong className="bg-gradient-to-r from-amber-700 via-amber-800 to-amber-900 text-amber-50 px-3 py-1 border-4 border-amber-950 shadow-[3px_3px_0px_rgba(0,0,0,0.5)]">Gold ATH $5,586.</strong> This isn't just a number. It's a signal. The signal that the 50-year experiment of fiat currency is coming to an end.
+                    <strong className="bg-gradient-to-r from-amber-700 via-amber-800 to-amber-900 text-amber-50 px-3 py-1 border-4 border-amber-950 shadow-[3px_3px_0px_rgba(0,0,0,0.5)]">Gold ATH $5,620.</strong> This isn't just a number. It's a signal. The signal that the 50-year experiment of fiat currency is coming to an end.
                   </>
                 ) : (
                   <>
-                    <strong className="bg-gradient-to-r from-amber-700 via-amber-800 to-amber-900 text-amber-50 px-3 py-1 border-4 border-amber-950 shadow-[3px_3px_0px_rgba(0,0,0,0.5)]">黄金 ATH $5,586。</strong> 这不只是一个数字，而是一个信号——那个延续了 50 年的法币实验，正在走向终局。
+                    <strong className="bg-gradient-to-r from-amber-700 via-amber-800 to-amber-900 text-amber-50 px-3 py-1 border-4 border-amber-950 shadow-[3px_3px_0px_rgba(0,0,0,0.5)]">黄金 ATH $5,620。</strong> 这不只是一个数字，而是一个信号——那个延续了 50 年的法币实验，正在走向终局。
                   </>
                 )}
               </p>
@@ -112,11 +112,11 @@ export function Narrative() {
               <p>
                 {language === "en" ? (
                   <>
-                    <strong className="bg-zinc-950 text-amber-400 px-3 py-1 border-4 border-amber-900 shadow-[3px_3px_0px_rgba(0,0,0,0.5)]">4Vault</strong> is the answer. We don't just meme about wealth. We capture it. By automatically converting fees into REAL tokenized Gold, we build a floor that cannot be rugged.
+                    <strong className="bg-zinc-950 text-amber-400 px-3 py-1 border-4 border-amber-900 shadow-[3px_3px_0px_rgba(0,0,0,0.5)]">Gold Dividend Vault</strong> is the answer. We don't just meme about wealth. We capture it. By automatically converting fees into REAL tokenized Gold, we build a floor that cannot be rugged.
                   </>
                 ) : (
                   <>
-                    <strong className="bg-zinc-950 text-amber-400 px-3 py-1 border-4 border-amber-900 shadow-[3px_3px_0px_rgba(0,0,0,0.5)]">4Vault</strong> 就是答案。我们不只是拿"财富"当梗，我们把它变成现实。通过将手续费自动兑换为 REAL（真实）代币化黄金，我们建立一个无法被 rug 的底盘。
+                    <strong className="bg-zinc-950 text-amber-400 px-3 py-1 border-4 border-amber-900 shadow-[3px_3px_0px_rgba(0,0,0,0.5)]">黄金分红金库</strong> 就是答案。我们不只是拿"财富"当梗，我们把它变成现实。通过将手续费自动兑换为 REAL（真实）代币化黄金，我们建立一个无法被 rug 的底盘。
                   </>
                 )}
               </p>

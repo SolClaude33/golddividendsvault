@@ -6,26 +6,18 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import clsx from "clsx";
 
 interface Stats {
-  totalDistributions: number;
-  totalGoldDistributed: number;
-  totalGoldMajorHolders: number;
-  totalTokenBuyback: number;
-  totalTreasury: number;
-  totalFeesClaimed: number;
-  totalBurned: number;
-  goldMint: string;
+  // Vault stats from GoldDividendVault contract
+  totalBNBReceived: string;
+  totalBNBConvertedToGold: string;
+  goldFundBalance: string;
+  treasuryBNBBalance: string;
+  currentGoldBalance: string;
+  totalGoldDistributed: string;
+  distributionActive: boolean;
+  distributionsPaused: boolean;
+  // Legacy
   tokenMint: string | null;
-  lastDistribution: string | null;
-  minimumHolderPercentage: string;
-  majorHoldersPercentage: string;
-  buybackPercentage: string;
-  treasuryPercentage: string;
   goldDistributionPercentage: string;
-  burnPercentage: string;
-  fundsBalance?: string;
-  feesConvertedToGold?: string;
-  liquidityBalance?: string;
-  liquidityTokens?: string;
 }
 
 interface Distribution {
@@ -56,34 +48,30 @@ export function LiveDashboard() {
 
   const content = {
     en: {
-      monitor: "4VAULT_MONITOR_V2.1",
+      monitor: "GDV_MONITOR_V2.1",
       monitorSub: "",
       followOnX: "Follow on X",
-      totalProtocolTrades: "Total Protocol Trades",
+      totalFeesReceived: "Total Fees Received",
+      feesConverted: "BNB Converted to GOLD",
+      goldFund: "GOLD Fund (queued)",
+      treasury: "Treasury Reserve (15%)",
       active: "ACTIVE",
-      goldPercent: "75% → $GOLD",
-      feesConverted: "Fees Converted to Gold",
-      liquidity: "Burning (15%)",
-      treasury: "Treasury (10%)",
-      treasuryReserve: "Treasury Reserve",
-      tokenCA: "TOKEN_CA",
+      goldPercent: "85% → $GOLD",
       allLogs: "All Logs",
       whalesOnly: "Whales Only",
       systemLogs: "_ SYSTEM_LOGS",
       noDistributions: "No distributions yet. Logs will appear here when the token is live."
     },
     zh: {
-      monitor: "4VAULT_MONITOR_V2.1",
+      monitor: "黄金分红金库_MONITOR_V2.1",
       monitorSub: "金库监控系统",
       followOnX: "关注 X",
-      totalProtocolTrades: "协议总交易数",
+      totalFeesReceived: "累计收到手续费",
+      feesConverted: "已兑换为GOLD的BNB",
+      goldFund: "待购买GOLD的BNB余额",
+      treasury: "金库储备BNB (15%)",
       active: "运行中",
-      goldPercent: "75% → $GOLD",
-      feesConverted: "已兑换为黄金的手续费",
-      liquidity: "销毁（15%）",
-      treasury: "金库（10%）",
-      treasuryReserve: "金库储备",
-      tokenCA: "TOKEN_CA",
+      goldPercent: "85% → $GOLD",
       allLogs: "全部日志",
       whalesOnly: "鲸鱼专属",
       systemLogs: "_ SYSTEM_LOGS",
@@ -193,7 +181,7 @@ export function LiveDashboard() {
   const isLive = !!stats?.tokenMint;
 
   return (
-    <section id="dashboard" className="py-13 md:py-18 relative font-mono text-amber-300 overflow-hidden min-h-screen flex items-center">
+    <section id="dashboard" className="py-6 md:py-8 relative font-mono text-amber-300 overflow-hidden min-h-screen flex items-center">
       {/* Marco de oro como fondo */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
@@ -208,7 +196,7 @@ export function LiveDashboard() {
       {/* Overlay oscuro */}
       <div className="absolute inset-0 bg-black/40" />
       
-      <div className="container mx-auto px-16 md:px-24 lg:px-37 py-4 relative z-10 w-full max-w-13xl">
+      <div className="container mx-auto px-16 md:px-24 lg:px-37 py-2 relative z-10 w-full max-w-13xl">
         
         <div className="bg-black/70 backdrop-blur-sm border-2 border-b-0 border-amber-400/60 rounded-t-xl p-4 flex justify-between items-center select-none shadow-[0_0_40px_rgba(251,191,36,0.3)]">
           <div className="flex items-center gap-4 text-xs">
@@ -232,74 +220,74 @@ export function LiveDashboard() {
           </div>
         </div>
 
-        <div className="bg-black/70 backdrop-blur-md border-2 border-amber-400/60 rounded-b-xl p-3 md:p-5 grid grid-cols-1 lg:grid-cols-12 gap-3 min-h-[370px] shadow-[0_0_80px_rgba(251,191,36,0.4)]">
+        <div className="bg-black/70 backdrop-blur-md border-2 border-amber-400/60 rounded-b-xl p-3 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-3 min-h-[580px] shadow-[0_0_80px_rgba(251,191,36,0.4)]">
           
           <div className="lg:col-span-4 flex flex-col gap-3 border-b lg:border-b-0 lg:border-r-2 border-amber-500/40 pb-3 lg:pb-0 lg:pr-3">
-            
-            <div className="space-y-1.5">
-              <h3 className="text-amber-400 text-xs uppercase tracking-widest mb-1 font-bold">{t.totalProtocolTrades}</h3>
-              <div className="text-5xl font-black text-amber-300 tracking-tighter tabular-nums drop-shadow-[0_0_20px_rgba(251,191,36,0.5)]" data-testid="text-total-trades">
-                {stats?.totalDistributions || 0}
-              </div>
-              <div className="text-xs text-amber-300 font-bold bg-amber-900/30 inline-block px-2 py-0.5 border border-amber-500/50 uppercase">
-                {stats?.tokenMint ? t.active : "PENDING"} | {t.goldPercent}
-              </div>
-            </div>
 
-            <div className="w-full h-px bg-gradient-to-r from-transparent via-amber-500/50 to-transparent" />
-
+            {/* 累计收到手续费 / Total Fees Received */}
             <div className="space-y-1.5">
-              <h3 className="text-amber-300 text-xs uppercase tracking-widest mb-1 font-bold">{t.feesConverted}</h3>
-              <div className="text-4xl font-black text-amber-200 tracking-tighter tabular-nums drop-shadow-[0_0_20px_rgba(251,191,36,0.5)]" data-testid="text-fees-gold">
+              <h3 className="text-amber-400 text-xs uppercase tracking-widest mb-1 font-bold">{t.totalFeesReceived}</h3>
+              <div className="text-4xl font-black text-amber-300 tracking-tighter tabular-nums drop-shadow-[0_0_20px_rgba(251,191,36,0.5)]" data-testid="text-total-fees">
                 {statsLoading ? (
                   <span className="text-sm">Loading...</span>
                 ) : statsError ? (
                   <span className="text-sm text-red-500">Error</span>
-                ) : stats?.feesConvertedToGold ? (
-                  <>
-                    {parseFloat(stats.feesConvertedToGold).toFixed(4)} <span className="text-lg text-amber-400/60 font-normal">BNB</span>
-                  </>
                 ) : (
                   <>
-                    0.0000 <span className="text-lg text-amber-400/60 font-normal">BNB</span>
+                    {parseFloat(stats?.totalBNBReceived || "0").toFixed(4)}
+                    <span className="text-lg text-amber-400/60 font-normal"> BNB</span>
                   </>
                 )}
               </div>
-              <div className="w-full bg-black/50 h-3 mt-2 border border-amber-500/40 overflow-hidden rounded">
-                <div className="h-full bg-gradient-to-r from-amber-400 to-amber-600 shadow-[0_0_15px_rgba(251,191,36,0.6)]" style={{ width: `${stats?.goldDistributionPercentage || 75}%` }}></div>
+              <div className="text-xs text-amber-300 font-bold bg-amber-900/30 inline-block px-2 py-0.5 border border-amber-500/50 uppercase">
+                {t.active} | {t.goldPercent}
               </div>
             </div>
 
             <div className="w-full h-px bg-gradient-to-r from-transparent via-amber-500/50 to-transparent" />
 
+            {/* 已兑换为GOLD的BNB / BNB Converted to GOLD */}
             <div className="space-y-1.5">
-              <h3 className="text-blue-400 text-xs uppercase tracking-widest mb-1 font-bold">{t.liquidity}</h3>
-              <div className="space-y-1">
-                <div className="text-3xl font-black text-blue-400 tracking-tighter tabular-nums" data-testid="text-buyback">
-                  {statsLoading ? (
-                    <span className="text-sm">Loading...</span>
-                  ) : statsError ? (
-                    <span className="text-sm text-red-500">Error</span>
-                  ) : stats?.liquidityBalance ? (
-                    <>
-                      {parseFloat(stats.liquidityBalance).toFixed(4)} <span className="text-lg text-blue-500/50 font-normal">BNB</span>
-                    </>
-                  ) : (
-                    <>
-                      0.0000 <span className="text-lg text-blue-500/50 font-normal">BNB</span>
-                    </>
-                  )}
-                </div>
-                {stats?.liquidityTokens && parseFloat(stats.liquidityTokens) > 0 && (
-                  <div className="text-3xl font-black text-blue-400 tracking-tighter tabular-nums">
-                    {parseFloat(stats.liquidityTokens).toLocaleString(undefined, { maximumFractionDigits: 2 })} <span className="text-lg text-blue-500/50 font-normal">tokens</span>
-                  </div>
+              <h3 className="text-amber-300 text-xs uppercase tracking-widest mb-1 font-bold">{t.feesConverted}</h3>
+              <div className="text-4xl font-black text-amber-200 tracking-tighter tabular-nums drop-shadow-[0_0_20px_rgba(251,191,36,0.5)]" data-testid="text-fees-converted">
+                {statsLoading ? (
+                  <span className="text-sm">Loading...</span>
+                ) : statsError ? (
+                  <span className="text-sm text-red-500">Error</span>
+                ) : (
+                  <>
+                    {parseFloat(stats?.totalBNBConvertedToGold || "0").toFixed(4)}
+                    <span className="text-lg text-amber-400/60 font-normal"> BNB</span>
+                  </>
+                )}
+              </div>
+              <div className="w-full bg-black/50 h-3 mt-2 border border-amber-500/40 overflow-hidden rounded">
+                <div className="h-full bg-gradient-to-r from-amber-400 to-amber-600 shadow-[0_0_15px_rgba(251,191,36,0.6)]" style={{ width: `${stats?.goldDistributionPercentage || 85}%` }} />
+              </div>
+            </div>
+
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-amber-500/50 to-transparent" />
+
+            {/* 待购买GOLD的BNB余额 / GOLD Fund queued */}
+            <div className="space-y-1.5">
+              <h3 className="text-blue-400 text-xs uppercase tracking-widest mb-1 font-bold">{t.goldFund}</h3>
+              <div className="text-3xl font-black text-blue-400 tracking-tighter tabular-nums" data-testid="text-gold-fund">
+                {statsLoading ? (
+                  <span className="text-sm">Loading...</span>
+                ) : statsError ? (
+                  <span className="text-sm text-red-500">Error</span>
+                ) : (
+                  <>
+                    {parseFloat(stats?.goldFundBalance || "0").toFixed(4)}
+                    <span className="text-lg text-blue-500/50 font-normal"> BNB</span>
+                  </>
                 )}
               </div>
             </div>
 
             <div className="w-full h-px bg-gradient-to-r from-transparent via-amber-600/50 to-transparent" />
 
+            {/* 金库储备BNB (15%) / Treasury Reserve */}
             <div className="space-y-1.5">
               <h3 className="text-purple-400 text-xs uppercase tracking-widest mb-1 font-bold">{t.treasury}</h3>
               <div className="text-3xl font-black text-purple-400 tracking-tighter tabular-nums" data-testid="text-treasury">
@@ -307,29 +295,15 @@ export function LiveDashboard() {
                   <span className="text-sm">Loading...</span>
                 ) : statsError ? (
                   <span className="text-sm text-red-500">Error</span>
-                ) : stats?.fundsBalance ? (
-                  <>
-                    {parseFloat(stats.fundsBalance).toFixed(4)} <span className="text-lg text-purple-500/50 font-normal">BNB</span>
-                  </>
                 ) : (
                   <>
-                    0.0000 <span className="text-lg text-purple-500/50 font-normal">BNB</span>
+                    {parseFloat(stats?.treasuryBNBBalance || "0").toFixed(4)}
+                    <span className="text-lg text-purple-500/50 font-normal"> BNB</span>
                   </>
                 )}
               </div>
-              <div className="text-xs text-purple-400 font-bold bg-purple-950/50 inline-block px-2 py-0.5 border border-purple-600/50 uppercase">
-                {t.treasuryReserve}
-              </div>
             </div>
 
-            <div className="mt-auto pt-7 space-y-2">
-               <div className="flex justify-between text-xs text-amber-400 font-bold uppercase">
-                  <span>{t.tokenCA}</span>
-                  <span className="font-mono text-amber-300">
-                    {stats?.tokenMint ? stats.tokenMint : "SOON"}
-                  </span>
-               </div>
-            </div>
           </div>
 
           <div className="lg:col-span-8 relative font-mono text-sm overflow-hidden">
@@ -370,7 +344,7 @@ export function LiveDashboard() {
                      </div>
                      <div className="flex items-center gap-4">
                        <span className="font-bold tabular-nums text-amber-200">
-                        {tx.type === "BUY GOLD" || tx.type === "DIVIDEND" ? `${tx.amount} OZ` : `${tx.amount} 4Vault`}
+                        {tx.type === "BUY GOLD" || tx.type === "DIVIDEND" ? `${tx.amount} OZ` : `${tx.amount} GDV`}
                        </span>
                        <span className="text-xs text-amber-600/40 hidden md:block font-mono">{tx.hash}</span>
                        <span className="text-[10px] px-1.5 py-0.5 bg-amber-900/40 rounded border border-amber-500/50 text-amber-400 font-bold">LIVE</span>
